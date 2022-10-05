@@ -1,0 +1,69 @@
+window.calculator = window.calculator || {};
+
+(function() {
+  window.calculator.init = function() {
+    // select all the buttons
+    const buttons = document.querySelectorAll('button');
+    // select the <input type="text" class="display" disabled> element
+    const display = document.querySelector('.display');
+    // add eventListener to each button
+    function startUpCalculator(){
+      buttons.forEach(function(button) {
+        button.addEventListener('click', calculate);
+      });
+    }
+
+    // function to limit decimal points to 9 d.p 
+    // function addZeros(num) {
+    //   const dec = num.split('.')[1]
+    //   const len = dec && dec.length < 9 && dec.length >1 ? dec.length : dec && dec.length >9 ? 9 :0
+    //   return String(Number(num).toFixed(len))
+    // }
+
+    // calculate function
+    function calculate(event) {
+      // current clicked buttons value
+      const clickedButtonValue = event.target.value;
+
+      var expr = new RegExp("(?<=[-+*/])|(?=[-+*/])");  
+      let newstring="";
+
+      if (clickedButtonValue === '=') {
+        // check if the display is not empty then only do the calculation
+        if (display.value !== '') {
+          // calculate and show the answer to display
+          // var lst=display.value.split(expr)
+          // for (let i = 0; i < lst.length; i++) {
+          //   if(lst[i]==="+" || lst[i]==="/" || lst[i]==="-" || lst[i]==="*"){
+          //       newstring+=lst[i]
+                
+          //   }else{
+          //       newstring+=parseInt(lst[i])
+          //   }
+          // }
+          // display.value = eval(newstring);
+          display.value = eval(display.value);
+          // if(display.value==='Infinity'){
+          //   display.value = 'Error';
+          // }else if(display.value==='-Infinity'){
+          //   display.value = 'Error';
+          // }else if(display.value==='NaN'){
+          //   display.value = 'Error';
+          // }else{
+          //   display.value = (addZeros(display.value))
+          //   // console.log(display.value)
+          // }
+        }
+      } else if (clickedButtonValue === 'C') {
+        // clear everything on display
+        display.value = '';
+      }else{
+        // otherwise concatenate it to the display
+        
+        display.value += clickedButtonValue;
+      }
+    }
+    startUpCalculator();
+  };
+  	
+})();
